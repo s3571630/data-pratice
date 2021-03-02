@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script>
+            window.onload = function () {
+                fetch('db.json', { method: 'GET' })
+                    .then(function (res) {
+                        // 要先轉成要的資料形式
+                        return res.json();
+                    })
+                    .then(function (result) {
+                        //............................一般map.........................
+                        console.log(result);
+                        //  querySelector vs querySelectorAll 前者找不到返回null 後者空{}
+                        let root = document.querySelector('div');
+                        result.products.map(p => {
+                            let box = `<div>${p.name}</div>`;
+                            // 不能使用append 用這個
+                            root.innerHTML += box;
+                        });
+                        //............................使用filter然後map.........................
+                        // 使用filter 根據函數回傳值 ( True / False)決定要不要把元素複製到新陣列
+                        result.products
+                            .filter(n => {
+                                const name = n.name.match(/.Kobe./);
+                                return !!name; //name === true && name!==null
+                            })
+                            .map(kobe => {
+                                console.log(kobe.name);
+                                console.log(kobe.price);
+                                let box2 = `<br> <div>${kobe.name} </div><div>${kobe.price}</div>`;
+                                root.innerHTML += box2;
+                            });
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+            };
+        </script>
+    </head>
+
+    <body>
+        <div></div>
+    </body>
+</html>

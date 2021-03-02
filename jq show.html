@@ -40,32 +40,28 @@
                     $('body').append(modal);
                     // 用map
                     data.products.map(p => {
-                        let box =
-                            `<div class='a' id='` +
-                            p.id +
-                            `'>` +
-                            ('<p>' + p.name + '</p>') +
-                            ('<p>' + p.price + '</p>') +
-                            (`<button id='btnadd` + p.id + `' >新增</button>`) +
-                            (`<button id='btnrevise` + p.id + `' >修改</button>`) +
-                            (`<button id='btndelete` + p.id + `' >刪除</button>`) +
-                            '</div>';
+                        let box = `<div class='a' id='${p.id}'>
+                                <p>${p.name}</p>
+                                <p>${p.price}</p>
+                                <button id='btnadd${p.id}'>新增</button>
+                                <button id='btnrevise${p.id}'>修改</button>
+                                <button id='btndelete${p.id}'>刪除</button>
+                            </div>`;
                         $('body').append(box);
-                        let btnAddId = '#btnadd' + p.id;
-                        let btnReviseId = '#btnrevise' + p.id;
-                        let btnDeleteId = '#btndelete' + p.id;
+                        let btnAddId = `#btnadd${p.id}`;
+                        let btnReviseId = `#btnrevise${p.id}`;
+                        let btnDeleteId = `#btndelete${p.id}`;
                         $(btnAddId).click(function () {
                             console.log(btnAddId);
                             $('.modal').show();
                         });
                         $(btnReviseId).click(function () {
                             console.log(btnReviseId);
-                            reviseform =
-                                `<form class="revise">` +
-                                (`<input type="text" placeholder="name" value="` + p.name + `">`) +
-                                (`<input type="text" placeholder="name" value="` + p.price + `">`) +
-                                `<button class="reviseBtn">Submit</button>` +
-                                `</form>`;
+                            reviseform = `<form class="revise">
+                                    <input type="text" placeholder="name" value="${p.name}">
+                                    <input type="text" placeholder="name" value="${p.price}">
+                                    <button class="reviseBtn">Submit</button>
+                                </form>`;
                             $('.modal').append(reviseform);
                             $('.modal').show();
                         });
