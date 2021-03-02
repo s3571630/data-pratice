@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script>
+            window.onload = function () {
+                fetch('db.json', { method: 'GET' })
+                    .then(function (res) {
+                        // 要先轉成要的資料形式
+                        return res.json();
+                    })
+                    .then(function (result) {
+                        console.log(result);
+                        result.products.map(p => {
+                            let box = '<div>' + p.name + '</div>';
+                            let root = document.querySelector('div');
+                            //  querySelector vs querySelectorAll 前者找不到返回null 後者空{}
+
+                            // 不能使用append 用這個
+                            root.innerHTML += box;
+                        });
+                    })
+                    .catch(function (err) {
+                        console.log('err!!');
+                    });
+            };
+        </script>
+    </head>
+    <body>
+        <div></div>
+    </body>
+</html>

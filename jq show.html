@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(function () {
+                $.ajax({
+                    dataType: 'json',
+                    url: 'db.json',
+                    method: 'get',
+                    // 本地用絕對路徑就不會報錯
+                    success: function (data) {
+                        console.log(data);
+                    },
+                }).done(function (data) {
+                    // 用陣列
+
+                    // for (let i = 0; i < data.products.length; i++) {
+                    //     let id = data.products[i].id;
+                    //     let name = data.products[i].name;
+                    //     let price = data.products[i].price;
+                    //     let status = data.products[i].status;
+                    //     console.log(id, name, price);
+                    //     let box =
+                    //         '<div class="a">' +
+                    //         ('<p>' + id + '</p>') +
+                    //         ('<p>' + name + '</p>') +
+                    //         ('<p>' + price + '</p>') +
+                    //         ('<p>' + status + '</p>') +
+                    //         '</div>';
+                    //     $('body').append(box);
+                    // }
+                    let reviseform = '';
+                    let modal = `<div class="modal">
+                                    <div class="close">X</div>
+                                </div>`;
+                    $('body').append(modal);
+                    // 用map
+                    data.products.map(p => {
+                        let box =
+                            `<div class='a' id='` +
+                            p.id +
+                            `'>` +
+                            ('<p>' + p.name + '</p>') +
+                            ('<p>' + p.price + '</p>') +
+                            (`<button id='btnadd` + p.id + `' >新增</button>`) +
+                            (`<button id='btnrevise` + p.id + `' >修改</button>`) +
+                            (`<button id='btndelete` + p.id + `' >刪除</button>`) +
+                            '</div>';
+                        $('body').append(box);
+                        let btnAddId = '#btnadd' + p.id;
+                        let btnReviseId = '#btnrevise' + p.id;
+                        let btnDeleteId = '#btndelete' + p.id;
+                        $(btnAddId).click(function () {
+                            console.log(btnAddId);
+                            $('.modal').show();
+                        });
+                        $(btnReviseId).click(function () {
+                            console.log(btnReviseId);
+                            reviseform =
+                                `<form class="revise">` +
+                                (`<input type="text" placeholder="name" value="` + p.name + `">`) +
+                                (`<input type="text" placeholder="name" value="` + p.price + `">`) +
+                                `<button class="reviseBtn">Submit</button>` +
+                                `</form>`;
+                            $('.modal').append(reviseform);
+                            $('.modal').show();
+                        });
+                        $(btnDeleteId).click(function () {
+                            console.log(btnDeleteId);
+                            $('.modal').show();
+                        });
+                    });
+                    $('.close').click(function () {
+                        reviseform = `<form class="revise">
+                                            <input type="text" placeholder="name">
+                                            <input type="text" placeholder="price">
+                                            <button type="button">Submit</button>
+                                      </form>`;
+                        $('.modal').append(reviseform);
+                        $('.modal').hide();
+                    });
+                });
+            });
+        </script>
+
+        <style>
+            body {
+                position: relative;
+            }
+            .a {
+                background-color: #a99;
+            }
+            .modal {
+                display: none;
+                background-color: #eef;
+                width: 500px;
+                height: 500px;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                position: fixed;
+                z-index: 10;
+            }
+            .close {
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                line-height: 20px;
+                background-color: #f00;
+                color: #eef;
+                border-radius: 50%;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+            .close:hover {
+                background-color: #fff;
+                color: #000;
+                cursor: pointer;
+            }
+            .revise {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .revise > input {
+                font-size: 1em;
+                height: 50px;
+                width: 300px;
+                display: block;
+                margin-bottom: 1em;
+            }
+        </style>
+    </head>
+    <body></body>
+</html>
